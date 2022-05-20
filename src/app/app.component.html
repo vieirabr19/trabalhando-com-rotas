@@ -3,16 +3,12 @@
     <a href="#" class="brand-logo right">Logo</a>
     <ul id="nav-mobile" class="left hide-on-med-and-down">
       <li><a routerLink="/contato" routerLinkActive="active">Contato</a></li>
-      <li><a routerLink="/cursos" routerLinkActive="active">Cursos</a></li>
-      <li><a [routerLink]="['curso', cursoId.value]" routerLinkActive="active">Curso com Id</a></li>
+      <li><a routerLink="/cursos" [queryParams]="{pagina: 1}" routerLinkActive="active">Cursos</a></li>
+      <li><a routerLink="/alunos" routerLinkActive="active">Alunos</a></li>
     </ul>
   </div>
 </nav>
 
 <div class="wrapper">
-  <input type="text" #cursoId />
-
-  <br><br>
-  
   <router-outlet></router-outlet>
 </div>

@@ -10,7 +10,8 @@ export class CursosService {
   getCursos(){
     return [
       {id: 1, nome: 'Angular'},
-      {id: 2, nome: 'Java'}
+      {id: 2, nome: 'Java'},
+      {id: 3, nome: 'Node'}
     ]
   }
 
