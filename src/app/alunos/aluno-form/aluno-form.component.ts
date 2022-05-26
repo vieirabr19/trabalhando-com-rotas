@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, UrlTree } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { IFormCanDeactivate } from 'src/app/guards/alunos-deactivate.guard';
 import { AlunosService } from '../alunos.service';
 
 @Component({
@@ -8,9 +9,10 @@ import { AlunosService } from '../alunos.service';
   templateUrl: './aluno-form.component.html',
   styleUrls: ['./aluno-form.component.scss']
 })
-export class AlunoFormComponent implements OnInit, OnDestroy {
+export class AlunoFormComponent implements OnInit, OnDestroy, IFormCanDeactivate {
   aluno: any = {};
   inscricao!: Subscription;
+  private formMuou = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,7 +23,6 @@ export class AlunoFormComponent implements OnInit, OnDestroy {
     this.inscricao = this.route.params.subscribe(params => {
       let id = params['id'];
       this.aluno = this.alunosService.getAlunosId(id);
-      console.log(this.aluno);
 
       if(this.aluno === null){
         this.aluno = {};
@@ -31,6 +32,22 @@ export class AlunoFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.inscricao.unsubscribe();
+  }
+
+  onInput(){
+    this.formMuou = true;
+  }
+
+  podeMudarRota(){
+    let msg: boolean = true;
+    if(this.formMuou){
+      msg = confirm('As alterações no formulário não foram salvas e serão descartadas, deseja prosseguir?');
+    }
+    return msg;
+  }
+
+  podeDesativarRota() {
+    return this.podeMudarRota();
   }
 
 }
